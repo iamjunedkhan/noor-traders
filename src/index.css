@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Rubik&family=Signika:wght@300;400&family=Ubuntu+Mono:ital,wght@1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap');
+
+* {
+    /* font-family: 'Quicksand', sans-serif; */
+    /* font-family: 'Rubik', sans-serif; */
+    /* font-family: 'Signika', sans-serif; */
+    /* font-family: 'Ubuntu', sans-serif; */
+    /* font-family: 'Ubuntu Mono', monospace; */
+    font-family: 'Lato', sans-serif;
+}
+
+.active {
+    font-weight: bold;
+    text-decoration: underline;
+
+}
+
+.productCard_shadow {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
+    transition: all;
+    transition-duration: 0.3s;
+    transform: scale(1.03);
+}
+
+.productCard_shadow:hover {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    ;
+    /* box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px; */
+}
+
+.boxShadow_light{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
