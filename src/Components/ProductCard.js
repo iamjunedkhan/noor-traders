@@ -32,7 +32,7 @@ const ProductCard = ({ productName, desc, company, mrp, img, img_id, id, categor
         navigate('/admin/edit-product/' + id);
     }
     return (
-        <div class="p-4 md:w-1/3 sm:w-1/2 " ref={parentRef}>
+        <div class="p-4 md:w-1/3 sm:w-1/2 w-full " ref={parentRef}>
             <div class="flex-col w-full justify-between h-full border-2 productCard_shadow  border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                 <img class="h-52 w-full object-cover object-center" src={img} alt="blog" />
                 <div class="p-6">

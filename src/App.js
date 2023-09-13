@@ -7,8 +7,8 @@ import './App.css';
 import { PUBLIC_ADMIN_EMAIL_HASH, PUBLIC_ADMIN_NAME_HASH, PUBLIC_LOGGEDIN_HASH } from './contastans/constant';
 import { AppContext } from './context/appContext';
 import {login} from './features/admin/adminSlice'
-import { AddProducts,DashBoard,AdminLogin,EditProduct, Orders, OrderPage } from './admin_components';
-import { Cart, Category, ContactUs, FilteredProducts, Footer, Hero, Navbar, NotFound, OrderForm, Shop } from './Components';
+import {  } from './Components';
+import { Cart, Category, ContactUs, FilteredProducts, Footer, Hero, Navbar, NotFound, OrderForm, Shop ,AddProducts,DashBoard,AdminLogin,EditProduct, Orders, OrderPage} from './Components';
 
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import AddCategory from '../admin_components/AddCategory';
+import AddCategory from  './AddCategory';
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import CategoryCard from './CategoryCard'
 import Loader from './Loader';

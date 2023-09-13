@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig'
-import Loader from '../Components/Loader';
+import Loader from './Loader';
 import { AppContext } from '../context/appContext';
 import { login } from '../features/admin/adminSlice';
 
@@ -68,10 +68,10 @@ const AdminLogin = () => {
 
 
   useEffect(() => {
-    myRef.current.focus();
     
     if(isLoggedIn)
     navigate('/shop');
+    myRef?.current?.focus();
   },[isLoggedIn,navigate]);
   
 
