@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux';
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import { ID } from 'appwrite'
 import { AppContext } from '../context/appContext';
+import { useNavigate } from 'react-router-dom';
 const appWriteObj = new AppwriteConfig();
 const OrderForm = ({ toggleShowOrderDetailsForm }) => {
     const { showToast } = useContext(AppContext);
     const products = useSelector(state => state.cart.products)
-    const formik = useFormik({
+    const navigate = useNavigate();
+        const formik = useFormik({
         initialValues: {
             name: '',
             email: '',
@@ -47,7 +49,9 @@ const OrderForm = ({ toggleShowOrderDetailsForm }) => {
                             formik.values.phone = '';
                             formik.values.shippingAddress = '';
                             formik.values.deliveryDate = '';
-                            window.location.reload();
+                            // window.location.reload();
+                            navigate(-1);
+
                         }).catch(err => {
                             console.log('orders | err ' + JSON.stringify(err));
                             showToast('Order not create due to some network error. please try again later.',true);

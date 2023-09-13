@@ -1,6 +1,7 @@
 import { Databases, ID } from 'appwrite';
 import { useFormik } from 'formik'
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import Loader from '../Components/Loader';
 import { AppContext } from '../context/appContext';
@@ -12,6 +13,7 @@ const AddProducts = () => {
     const { showToast } = useContext(AppContext);
     const [categoreis, setCategoreis] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             product_name: '',
@@ -54,7 +56,8 @@ const AddProducts = () => {
                         }).then(res => {
                             console.log('insdie create  doc| the res is:' + res);
                             showToast('Product Successfully Added!');
-                            window.location.reload();
+                            // window.location.reload();
+                            navigate(-1);
                         }).catch(err => {
                             console.log('inside create  doc| the error is :' + err);
                             showToast('Some Error Occured While Creating product.');
@@ -74,7 +77,9 @@ const AddProducts = () => {
                 }).then(res => {
                     console.log('insdie create  doc| the res is:' + res);
                     showToast('Product Successfully Added!');
-                    window.location.reload();
+                    // window.location.reload();
+                    navigate(-1);
+                    
                 }).catch(err => {
                     console.log('inside create  doc| the error is :' + err);
                     showToast('Some Error Occured While Creating product.');
