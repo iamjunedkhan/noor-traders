@@ -4,7 +4,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { GrFormClose } from "react-icons/gr";
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {login, logout} from './../features/admin/adminSlice'
+import { logout} from './../features/admin/adminSlice'
 import { PUBLIC_ADMIN_EMAIL_HASH, PUBLIC_ADMIN_NAME_HASH, PUBLIC_LOGGEDIN_HASH } from '../contastans/constant';
 
 const Navbar = ({ showToast }) => {
