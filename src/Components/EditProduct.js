@@ -66,7 +66,7 @@ const EditProduct = () => {
                                 console.log(res); // Success
                                 showToast('Product Updated Successfully!');
                                 setTimeout(() => {
-                                    navigate(   -1);
+                                    navigate(-1);
                                 }, 500);
                                 setIsLoading(false);
                             }).catch(err => {
@@ -82,10 +82,10 @@ const EditProduct = () => {
 
         },
     });
-
+    
     useEffect(() => {
         console.log('inside edit product page');
-        setIsLoading(true);
+        // setIsLoading(true);
         // fetching product details 
         appObj.databases.getDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, product_id)
             .then((res) => {
@@ -113,7 +113,7 @@ const EditProduct = () => {
                 console.log('error from get Categories');
                 console.log(err);
             });
-    }, [product_id])
+    }, [formik.values,product_id])
 
     if (isLoading) {
         return <Loader />
