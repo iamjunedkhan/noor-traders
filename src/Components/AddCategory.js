@@ -1,12 +1,14 @@
 import { ID } from 'appwrite';
 import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig'
 import { AppContext } from '../context/appContext';
 
 const appWriteObj = new AppwriteConfig();
-const AddCategory = ({ handleAddCategory }) => {
+const AddCategory = ({ handleAddCategory,addCategoryInDom }) => {
     const [category, setCategory] = useState('');
     const { showToast } = useContext(AppContext);
+    const navigate  = useNavigate();
     const handleSaveCategory = () => {
         appWriteObj.databases.createDocument(process.env.REACT_APP_DBKEY ,process.env.REACT_APP_COLLECTION_ID_CATEGORY,ID.unique(),{
             category_name:category
@@ -15,7 +17,8 @@ const AddCategory = ({ handleAddCategory }) => {
             console.log('addCategory res:'+res);
             showToast('Category added Successfully.');
             handleAddCategory();
-            setTimeout(window.location.reload(),1000)
+            addCategoryInDom({$id:ID.unique(),category_name:category})
+            navigate('/category');
         })
         .catch(err=>{
             console.log('addCategory err '+err);

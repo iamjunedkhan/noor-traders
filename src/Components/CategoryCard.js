@@ -6,7 +6,7 @@ import { AppContext } from '../context/appContext';
 
 const appwrite = new AppwriteConfig();
 const CategoryCard = ({ name, id }) => {
-  const parentElement = useRef();
+  const currentCard = useRef();
   const [category, setCategory] = useState(name);
   const [isEditMode, setIsEditMode] = useState(false)
   const { showToast } = useContext(AppContext);
@@ -15,10 +15,12 @@ const CategoryCard = ({ name, id }) => {
   const handleDelete = () => {
     if (!window.confirm('Are you sure, you want to delete this category?'))
       return;
+
     appwrite.databases.deleteDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_CATEGORY, id)
       .then(res => {
         showToast('Products deleted successfully.');
-        parentElement.current.remove();
+        // currentCard.current.remove();
+        console.log(currentCard.current);
       }).catch(err => {
         showToast('Sorry,Product not deleted. Some error occured.', true);
       })
@@ -41,7 +43,7 @@ const CategoryCard = ({ name, id }) => {
   }
 
   return (
-    <div className="p-4 md:w-1/3 w-full" ref={parentElement}>
+    <div className="p-4 md:w-1/3 w-full" ref={currentCard}>
       <div className="flex rounded-lg h-full bg-dark text-white py-4 px-6 flex-col">
 
         {isEditMode ? <div className='flex items-center mb-3'>

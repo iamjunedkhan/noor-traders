@@ -1,4 +1,4 @@
-import {  useFormik } from 'formik'
+import { useFormik } from 'formik'
 import React, { useContext } from 'react'
 import { useSelector } from 'react-redux';
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
@@ -10,7 +10,7 @@ const OrderForm = ({ toggleShowOrderDetailsForm }) => {
     const { showToast } = useContext(AppContext);
     const products = useSelector(state => state.cart.products)
     const navigate = useNavigate();
-        const formik = useFormik({
+    const formik = useFormik({
         initialValues: {
             name: '',
             email: '',
@@ -19,7 +19,9 @@ const OrderForm = ({ toggleShowOrderDetailsForm }) => {
             deliveryDate: ''
         },
         onSubmit: (values) => {
-            alert(JSON.stringify(products));
+            // alert(JSON.stringify(products));
+            if (!window.confirm('Press Okay to place Order'))
+                return;
             appWriteObj.databases.createDocument(
                 process.env.REACT_APP_DBKEY,
                 process.env.REACT_APP_COLLECTION_ID_ORDERS_PRODUCTS,
@@ -54,7 +56,7 @@ const OrderForm = ({ toggleShowOrderDetailsForm }) => {
 
                         }).catch(err => {
                             console.log('orders | err ' + JSON.stringify(err));
-                            showToast('Order not create due to some network error. please try again later.',true);
+                            showToast('Order not create due to some network error. please try again later.', true);
                         })
                 }).catch(err => {
                     console.log('orders producs | err :' + err);

@@ -18,6 +18,9 @@ const Category = () => {
     setAddCatergory(!addCatergory);
   }
 
+  const addCategoryInDom = (data)=>{
+    setCategoryData([...categoryData,data]);
+  }
   useEffect(() => {
 
     
@@ -29,7 +32,7 @@ const Category = () => {
       console.log(error);
       // setIsError(true);
     });
-  }, [])
+  }, [categoryData])
 
   if (isLoading) {
     return <Loader />
@@ -37,7 +40,7 @@ const Category = () => {
 
   return (
     <>
-    {addCatergory&&<AddCategory handleAddCategory={handleAddCategory} />}
+    {addCatergory&&<AddCategory handleAddCategory={handleAddCategory} addCategoryInDom={addCategoryInDom} />}
       <section className="text-gray-600 body-font ">
         <div className="container px-5 py-24 mx-auto w-full md:w-3/4">
           <div className="flex flex-col text-center w-full  mb-10">

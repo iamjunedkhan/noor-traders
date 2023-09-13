@@ -19,7 +19,7 @@ const AddProducts = () => {
             product_name: '',
             product_desc: '',
             product_mrp: '',
-            product_category: '',
+            product_category: 'None',
         },
         onSubmit: values => {
 
@@ -40,8 +40,9 @@ const AddProducts = () => {
             //         showToast('Product Not Added. Please Contact Admin.',true);
             //     })
             // if image is present 
-            console.log('image fiel is '+image_file);
+            console.log('image fiel is '+JSON.stringify(image_file));
             console.log('product mrp is '+values.product_mrp);
+            setIsLoading(true);
             if (image_file != null) {
                 appObj.storage.createFile(process.env.REACT_APP_PRODUCT_IMAGE_BUCKET, ID.unique(), image_file)
                     .then(res => {
@@ -57,16 +58,20 @@ const AddProducts = () => {
                             console.log('insdie create  doc| the res is:' + res);
                             showToast('Product Successfully Added!');
                             // window.location.reload();
+                            setIsLoading(false);
                             navigate(-1);
                         }).catch(err => {
                             console.log('inside create  doc| the error is :' + err);
-                            showToast('Some Error Occured While Creating product.');
+                            showToast('some error occured please try again or contact Developer.',true);
+                            setIsLoading(false);
                         })
                     }).catch(err => {
                         console.log('inside create file| the error is :' + err);
+                        showToast('some error occured please try again or contact Developer.',true)
                     })
             }
             else {  // if image is not present 
+
                 appObj.databases.createDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, ID.unique(), {
                     product_name: values.product_name,
                     product_desc: values.product_desc,
@@ -78,11 +83,13 @@ const AddProducts = () => {
                     console.log('insdie create  doc| the res is:' + res);
                     showToast('Product Successfully Added!');
                     // window.location.reload();
+                    setIsLoading(false);
                     navigate(-1);
                     
                 }).catch(err => {
                     console.log('inside create  doc| the error is :' + err);
                     showToast('Some Error Occured While Creating product.');
+                    setIsLoading(false);
                 })
             }
 
@@ -127,7 +134,10 @@ const AddProducts = () => {
                 </div>
                 <div className="mb-6">
                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Upload file</label>
-                    <input onChange={(e) => setImage_file(e.target.files[0])} id="image_file" accept=".jpg, .jpeg, .png" className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" />
+                    <input onChange={(e) =>{
+                        console.log('event for file is:');
+                        console.log(e.target);
+                         setImage_file(e.target.files[0])}} id="image_file" accept=".jpg, .jpeg, .png" className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" />
                 </div>
                 <div className='mb-6'>
                     <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Category</label>

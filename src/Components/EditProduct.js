@@ -27,6 +27,7 @@ const EditProduct = () => {
             product_category: '',
         },
         onSubmit: values => {
+            setIsLoading(true)
             if (!imageCheckBox) {
                 appObj.databases.updateDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, product_id,
                     {
@@ -41,10 +42,12 @@ const EditProduct = () => {
                         showToast('Product Updated Successfully!');
                         setTimeout(() => {
                             navigate('/shop');
-                        }, 1500);
+                        }, 500);
+                        setIsLoading(false);
                     }).catch(err => {
                         console.log(err);
                         showToast('Some Error Occured!', true);
+                        setIsLoading(false);
                     })
             } else {
                 appObj.storage.createFile(process.env.REACT_APP_PRODUCT_IMAGE_BUCKET, ID.unique(), image_file)
@@ -64,10 +67,12 @@ const EditProduct = () => {
                                 showToast('Product Updated Successfully!');
                                 setTimeout(() => {
                                     navigate(   -1);
-                                }, 1500);
+                                }, 500);
+                                setIsLoading(false);
                             }).catch(err => {
                                 console.log(err);
                                 showToast('product update createdocuemtn |Some Error Occured!', true);
+                                setIsLoading(false);
                             })
                     }).catch(err => {
                         console.log('product update fileCreate|the error is:' + err);
@@ -108,7 +113,7 @@ const EditProduct = () => {
                 console.log('error from get Categories');
                 console.log(err);
             });
-    }, [formik.values,product_id])
+    }, [product_id])
 
     if (isLoading) {
         return <Loader />

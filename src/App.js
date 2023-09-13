@@ -30,7 +30,7 @@ function App() {
     else{
       toast.error(msg, {
         position: "top-left",
-        autoClose: 500,
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
