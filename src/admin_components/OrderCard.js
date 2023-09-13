@@ -17,7 +17,7 @@ const OrderCard = ({
         useEffect(() => {
            let date=  new Date(Date.parse(delivery_date));
             setConvertedDate(date.toDateString());
-        }, [])
+        }, [delivery_date])
         
         const capatilize= (s)=>{
             return s.charAt(0).toUpperCase()+s.substr(1);

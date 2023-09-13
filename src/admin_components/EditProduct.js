@@ -108,7 +108,7 @@ const EditProduct = () => {
                 console.log('error from get Categories');
                 console.log(err);
             });
-    }, [])
+    }, [formik.values,product_id])
 
     if (isLoading) {
         return <Loader />

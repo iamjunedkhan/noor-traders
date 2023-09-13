@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Databases, Query } from "appwrite";
+import {  Query } from "appwrite";
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import Loader from './Loader';
 import ShowProducts from './ShowProducts';
@@ -77,7 +77,7 @@ const Shop = () => {
       <div className='flex justify-center mb-12'>
         <ul class="inline-flex -space-x-px text-sm ">
           <li>
-            <p class={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-white bg-indigo-600   rounded-l-lg ${page==0?'bg-blue-300':'hover:bg-indigo-700'}`} onClick={()=>{
+            <p class={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-white bg-indigo-600   rounded-l-lg ${page===0?'bg-blue-300':'hover:bg-indigo-700'}`} onClick={()=>{
               if(page===0)
               return ;
               setPage(pre=>pre-1)}} >Previous</p>

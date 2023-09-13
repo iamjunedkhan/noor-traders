@@ -1,4 +1,4 @@
-import { AppwriteException, Query } from 'appwrite';
+import {  Query } from 'appwrite';
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
@@ -44,7 +44,7 @@ const OrderPage = () => {
             }).catch(err => {
                 console.log('err is:' + err);
             })
-    }, [])
+    }, [order_id])
 
     const handleChangeStatus = () => {
 

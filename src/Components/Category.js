@@ -10,7 +10,7 @@ const appWriteConfig = new AppwriteConfig();
 const Category = () => {
   const [categoryData, setCategoryData] = useState(null);
   const [addCatergory, setAddCatergory] = useState(false)
-  const [isError, setIsError] = useState(false);
+  // const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = useSelector(state=>state.admin.is_logged_in);
 
@@ -27,7 +27,7 @@ const Category = () => {
       setIsLoading(false);})
     .catch( (error)=> {
       console.log(error);
-      setIsError(true);
+      // setIsError(true);
     });
   }, [])
 

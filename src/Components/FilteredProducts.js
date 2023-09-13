@@ -34,7 +34,7 @@ const FilteredProducts = () => {
       console.log(error); // Failure
       setIsError(true);
     });
-  }, [])
+  }, [params.campany_name])
 
   if (isLoading) {
     return <Loader />

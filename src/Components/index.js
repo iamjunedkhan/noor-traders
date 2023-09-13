@@ -13,6 +13,7 @@ import Shop from "./Shop";
 import ShowProducts from "./ShowProducts";
 import NotFound from "./NotFound";
 import OrderForm from "./OrderForm";
+import EmptyComponent from './EmptyComponent'
 
 export {
     Cart,
@@ -29,5 +30,6 @@ export {
     Shop,
     ShowProducts,
     NotFound,
-    OrderForm
+    OrderForm,
+    EmptyComponent
 }

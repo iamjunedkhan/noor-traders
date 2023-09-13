@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { AppwriteConfig } from '../appwrite/appWriteConfig'
+import { EmptyComponent } from '../Components';
 import Loader from '../Components/Loader';
 import OrderCard from './OrderCard'
 
@@ -47,6 +48,7 @@ const Orders = () => {
             order_status={order.order_status}
             shipping_address={order.shipping_address}
           />
+          return <EmptyComponent />
       })}
 
     </div>
@@ -69,6 +71,8 @@ const Orders = () => {
             order_status={order.order_status}
             shipping_address={order.shipping_address}
           />
+
+          return <EmptyComponent />
       })}
 
     </div>
@@ -90,6 +94,8 @@ const Orders = () => {
             order_status={order.order_status}
             shipping_address={order.shipping_address}
           />
+
+          return <EmptyComponent />
       })}
 
     </div>
@@ -112,6 +118,8 @@ const Orders = () => {
             order_status={order.order_status}
             shipping_address={order.shipping_address}
           />
+
+          return <EmptyComponent />
       })}
 
     </div>
