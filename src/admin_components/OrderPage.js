@@ -1,11 +1,13 @@
 import { AppwriteException, Query } from 'appwrite';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import { Loader } from '../Components';
+import { AppContext } from '../context/appContext';
 
 const appWriteObj = new AppwriteConfig();
 const OrderPage = () => {
+    const {showToast} =  useContext(AppContext)
     const params = useParams();
     const order_id = params.order_id;
 
@@ -44,22 +46,31 @@ const OrderPage = () => {
             })
     }, [])
 
-    const handleChangeStatus =()=>{
-        
+    const handleChangeStatus = () => {
+
         console.log(status);
-        if(status==null)
-        return ;
+        if (status == null)
+            return;
         appWriteObj.databases.updateDocument(
             process.env.REACT_APP_DBKEY,
             process.env.REACT_APP_COLLECTION_ID_ORDERS,
             orderDetails.$id,
-            {order_status:status})
-            .then(res=>{
+            { order_status: status })
+            .then(res => {
                 console.log(res);
-            }).catch(err=>{
+            }).catch(err => {
                 console.log(err);
+                showToast('status not updated.',true);
             })
-            setIsEditMode(false);
+        setIsEditMode(false);
+    }
+
+    const convertDate = (tempDate, time = false) => {
+        let tdate = new Date(Date.parse(tempDate));
+        if (!time)
+            return tdate.toDateString();
+
+        return tdate.toDateString() + ' ' + tdate.toLocaleTimeString()
     }
     if (isLoading || orderDetails == null || productList == null) {
         return <Loader />
@@ -74,18 +85,18 @@ const OrderPage = () => {
                     <div className='md:grid grid-cols-2'>
                         <div className='font-semibold my-4'>
                             <p className='font-extrabold text-xl'>Order Information</p>
-                            <p>Order Date: <span className="font-extrabold">{orderDetails.$createdAt}</span></p>
-                            <p>Delivery Date: <span className="font-extrabold">{orderDetails.delivery_date}</span></p>
+                            <p>Order Date: <span className="font-extrabold">{convertDate(orderDetails.$createdAt, true)}</span></p>
+                            <p>Delivery Date: <span className="font-extrabold">{convertDate(orderDetails.delivery_date)}</span></p>
                             <p>Order Status:
-                                {!isEditMode&&<span onDoubleClick={()=>setIsEditMode(true)}  className="font-extrabold">{(status!==null&&status!==''&&status!==undefined)?status:(orderDetails?.order_status)}</span> }
-                                {isEditMode&&<div className='inline'><select id="status" onChange={(e)=>setStatus(e.target.value)} class="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline w-36 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                {!isEditMode && <span onDoubleClick={() => setIsEditMode(true)} className="font-extrabold">{(status !== null && status !== '' && status !== undefined) ? status : (orderDetails?.order_status)}</span>}
+                                {isEditMode && <div className='inline'><select id="status" onChange={(e) => setStatus(e.target.value)} class="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline w-36 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option selected >Change status</option>
                                     <option value="New">New</option>
                                     <option value="Pending">Pending</option>
                                     <option value="Complete">Complete</option>
                                     <option value="Cancle">Cancle</option>
                                 </select>
-                                <button type="button"  onClick={handleChangeStatus} class="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-2 py-1 ml-1 mb-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ok</button></div>}
+                                    <button type="button" onClick={handleChangeStatus} class="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-2 py-1 ml-1 mb-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ok</button></div>}
                             </p>
                             <p>Shipping Address: <span className="font-extrabold">{orderDetails.shipping_address}</span></p>
                         </div>
@@ -122,7 +133,7 @@ const OrderPage = () => {
                             <tbody>
                                 {productList?.map(prod => {
                                     console.log(prod);
-                                    return <tr key={prod.$id}  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    return <tr key={prod.$id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {prod.product_name}
                                         </th>
@@ -130,7 +141,7 @@ const OrderPage = () => {
                                             {prod.quantity}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {prod.id}
+                                            {prod.product_category}
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center mr-4">

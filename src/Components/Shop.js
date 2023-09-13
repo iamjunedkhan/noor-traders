@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import ProductCard from './ProductCard'
-import { Databases,Query } from "appwrite";
+import { Databases, Query } from "appwrite";
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import Loader from './Loader';
 import ShowProducts from './ShowProducts';
@@ -10,27 +9,31 @@ import { useNavigate } from 'react-router-dom';
 
 const appWriteConfig = new AppwriteConfig();
 const Shop = () => {
-  
+
   const [productData, setProductData] = useState();
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const isLoggedIn = useSelector(state => state.admin.is_logged_in);
+  const [page, setPage] = useState(0)
   const navigate = useNavigate();
+
 
   useEffect(() => {
     // const databases = new Databases(appWriteConfig.client);
-    const promise = appWriteConfig.databases.listDocuments(PUBLIC_DBKEY, PUBLIC_COLLECTION_ID_PRODUCTDB,[Query.limit(100)]);
+    setIsLoading(true);
+    const promise = appWriteConfig.databases.listDocuments(PUBLIC_DBKEY, PUBLIC_COLLECTION_ID_PRODUCTDB, [Query.limit(25),Query.offset(page*25)]);
     promise.then(function (response) {
       console.log('success inside shop');
       console.log(response); // Success
       setProductData(response.documents);
       setIsLoading(false);
+      
     }, function (error) {
       console.log('error');
       console.log(error); // Failure
       setIsError(true);
     });
-  }, [])
+  }, [page])
 
   const handleAddProduct = () => {
     navigate('/admin/add-product');
@@ -69,7 +72,27 @@ const Shop = () => {
 
         </div>
       </div> */}
+      {productData.length ===0&& <h1 className='text-center text-xl mt-24'>You have vivwed all the products</h1>}
       <ShowProducts productData={productData} isError={isError} />
+      <div className='flex justify-center mb-12'>
+        <ul class="inline-flex -space-x-px text-sm ">
+          <li>
+            <p class={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-white bg-indigo-600   rounded-l-lg ${page==0?'bg-blue-300':'hover:bg-indigo-700'}`} onClick={()=>{
+              if(page===0)
+              return ;
+              setPage(pre=>pre-1)}} >Previous</p>
+          </li>
+          <li>
+      <p href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-white bg-indigo-600 hover:bg-indigo-700">{page+1}</p>
+    </li>
+          <li>
+            <p class={`flex items-center justify-center px-3 h-8 leading-tight text-white rounded-r-lg bg-indigo-600  ${productData.length===0?'bg-blue-300':'hover:bg-indigo-700'}`} onClick={()=>{
+                  if(productData.length===0)
+                  return ;
+              setPage(pre=>pre+1)}}>Next</p>
+          </li>
+        </ul>
+      </div>
     </section>
   )
 }

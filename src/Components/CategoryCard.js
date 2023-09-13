@@ -5,36 +5,38 @@ import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import { AppContext } from '../context/appContext';
 
 const appwrite = new AppwriteConfig();
-const CategoryCard = ({ name,id }) => {
-  const parentElement= useRef();
+const CategoryCard = ({ name, id }) => {
+  const parentElement = useRef();
   const [category, setCategory] = useState(name);
   const [isEditMode, setIsEditMode] = useState(false)
   const { showToast } = useContext(AppContext);
 
   const isLoggedIn = useSelector(state => state.admin.is_logged_in);
   const handleDelete = () => {
-      appwrite.databases.deleteDocument(process.env.REACT_APP_DBKEY,process.env.REACT_APP_COLLECTION_ID_CATEGORY,id)
-      .then(res=>{
+    if (!window.confirm('Are you sure, you want to delete this category?'))
+      return;
+    appwrite.databases.deleteDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_CATEGORY, id)
+      .then(res => {
         showToast('Products deleted successfully.');
         parentElement.current.remove();
-      }).catch(err=>{
-        showToast('Sorry,Product not deleted. Some error occured.',true);
+      }).catch(err => {
+        showToast('Sorry,Product not deleted. Some error occured.', true);
       })
   }
 
-  const handleEditSave = ()=>{
-    if(isEditMode){
-      appwrite.databases.updateDocument(process.env.REACT_APP_DBKEY,process.env.REACT_APP_COLLECTION_ID_CATEGORY, id,{
-        category_name:category
-      }).then(res=>{
+  const handleEditSave = () => {
+    if (isEditMode) {
+      appwrite.databases.updateDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_CATEGORY, id, {
+        category_name: category
+      }).then(res => {
         console.log(res);
         showToast('Category Updated Successfully.')
-      }).catch(err=>{
-        console.log('category update err '+err);
-        showToast('Category Not Updated. Some Error Occured',true)
+      }).catch(err => {
+        console.log('category update err ' + err);
+        showToast('Category Not Updated. Some Error Occured', true)
       })
     }
-    
+
     setIsEditMode(!isEditMode);
   }
 
@@ -58,7 +60,7 @@ const CategoryCard = ({ name,id }) => {
           </Link>
         </div>
         <div className='mt-2'>
-          {isLoggedIn && <button type="button" onClick={() =>handleEditSave()} className="text-black  bg-white  hover:bg-gray-200  focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">{isEditMode ? 'Save' : 'Edit'}</button>}
+          {isLoggedIn && <button type="button" onClick={() => handleEditSave()} className="text-black  bg-white  hover:bg-gray-200  focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">{isEditMode ? 'Save' : 'Edit'}</button>}
           {isLoggedIn && <button type="button" onClick={() => handleDelete()} className="text-white  bg-red-700  hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">Delete</button>}
         </div>
       </div>

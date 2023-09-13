@@ -12,11 +12,13 @@ const ProductCard = ({ productName, desc, company, mrp, img, img_id, id, categor
     const parentRef = useRef();
     const isLoggedIn = useSelector(state => state.admin.is_logged_in);
     const { showToast } = useContext(AppContext);
-    const navigate= useNavigate();
+    const navigate = useNavigate();
 
     console.log('image id in product card is:', img_id);
-    
+
     const handleDelete = (id, imgId) => {
+        if (!window.confirm('Are you sure you want to delete this product?'))
+            return;
         console.log('insdie handldelte');
         console.log('the id is ', { id });
         appwrite.deleteProduct(id, imgId)
@@ -26,13 +28,13 @@ const ProductCard = ({ productName, desc, company, mrp, img, img_id, id, categor
             })
             .catch(err => { console.log(err); })
     }
-    const handleEdit = (id)=>{
-        navigate('/admin/edit-product/'+id);
+    const handleEdit = (id) => {
+        navigate('/admin/edit-product/' + id);
     }
     return (
         <div class="p-4 md:w-1/3 sm:w-1/2 " ref={parentRef}>
-            <div class="flex-col justify-between h-full border-2 productCard_shadow  border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-                <img class="lg:h-48 md:h-36 w-full object-cover object-center" src={img} alt="blog" />
+            <div class="flex-col w-full justify-between h-full border-2 productCard_shadow  border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                <img class="h-52 w-full object-cover object-center" src={img} alt="blog" />
                 <div class="p-6">
                     <div>
                         <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb">{category}</h2>
@@ -43,11 +45,11 @@ const ProductCard = ({ productName, desc, company, mrp, img, img_id, id, categor
                         <button type="button" class="text-white  bg-indigo-700  hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 w-full md:w-fit "
                             onClick={() => {
                                 showToast('Product Added To cart!');
-                                dispatch(addProduct({ product_name: productName, quantity: 1, id: id }))
+                                dispatch(addProduct({ product_name: productName, quantity: 1, id: id,product_category:category }))
                             }
                             }
                         >Add To Cart</button>
-                        {isLoggedIn && <button type="button" class="text-white  bg-green-700  hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1" onClick={()=>handleEdit(id)}>Edit</button>}
+                        {isLoggedIn && <button type="button" class="text-white  bg-green-700  hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1" onClick={() => handleEdit(id)}>Edit</button>}
                         {isLoggedIn && <button type="button" onClick={() => handleDelete(id, img_id)} class="text-white  bg-red-700  hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">Delete</button>}
 
                     </div>

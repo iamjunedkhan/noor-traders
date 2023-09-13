@@ -1,3 +1,4 @@
+import { ID } from 'appwrite';
 import { useFormik } from 'formik'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,7 +18,7 @@ const EditProduct = () => {
     const { showToast } = useContext(AppContext);
     const [categoreis, setCategoreis] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
-    const navigate =useNavigate();
+    const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             product_name: '',
@@ -26,25 +27,53 @@ const EditProduct = () => {
             product_category: '',
         },
         onSubmit: values => {
+            if (!imageCheckBox) {
+                appObj.databases.updateDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, product_id,
+                    {
+                        product_name: values.product_name,
+                        product_desc: values.product_desc,
+                        product_mrp: values.product_mrp,
+                        product_category: values.product_category
+                    })
+                    .then(res => {
+                        console.log('success|updatedoc');
+                        console.log(res); // Success
+                        showToast('Product Updated Successfully!');
+                        setTimeout(() => {
+                            navigate('/shop');
+                        }, 1500);
+                    }).catch(err => {
+                        console.log(err);
+                        showToast('Some Error Occured!', true);
+                    })
+            } else {
+                appObj.storage.createFile(process.env.REACT_APP_PRODUCT_IMAGE_BUCKET, ID.unique(), image_file)
+                    .then(res => {
+                        appObj.databases.updateDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, product_id,
+                            {
+                                product_name: values.product_name,
+                                product_desc: values.product_desc,
+                                product_mrp: values.product_mrp,
+                                product_category: values.product_category,
+                                product_img_url: `https://cloud.appwrite.io/v1/storage/buckets/${process.env.REACT_APP_PRODUCT_IMAGE_BUCKET}/files/${res.$id}/view?project=${process.env.REACT_APP_PROJECTID}&mode=admin`,
+                                img_id: res.$id
+                            })
+                            .then(res => {
+                                console.log('success|updatedoc');
+                                console.log(res); // Success
+                                showToast('Product Updated Successfully!');
+                                setTimeout(() => {
+                                    navigate(   -1);
+                                }, 1500);
+                            }).catch(err => {
+                                console.log(err);
+                                showToast('product update createdocuemtn |Some Error Occured!', true);
+                            })
+                    }).catch(err => {
+                        console.log('product update fileCreate|the error is:' + err);
+                    })
+            }
 
-            appObj.databases.updateDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, product_id,
-                {
-                    product_name:values.product_name,
-                    product_desc:values.product_desc,
-                    product_mrp:values.product_mrp,
-                    product_category:values.product_category
-                })
-            .then(res=> {
-                console.log('success|updatedoc');
-                console.log(res); // Success
-                showToast('Product Updated Successfully!');
-                setTimeout(() => {
-                    navigate('/shop');
-                }, 1500);
-            }).catch(err=>{
-                console.log(err);
-                showToast('Some Error Occured!',true);
-            })
 
         },
     });
@@ -89,7 +118,7 @@ const EditProduct = () => {
 
             <p className='text-center text-2xl md:text-4xl font-bold mt-6 md:mt-12 '>Edit Product Here</p>
 
-            <form  className='border-2 border-dark m-6 md:m-12 p-12 rounded-xl' onSubmit={formik.handleSubmit} >
+            <form className='border-2 border-dark m-6 md:m-12 p-12 rounded-xl' onSubmit={formik.handleSubmit} >
                 <div class="mb-6">
                     <label for="product_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
                     <input type="text" onChange={formik.handleChange} value={formik.values.product_name} id="product_name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="" required />
@@ -113,7 +142,7 @@ const EditProduct = () => {
 
                 <div className='mb-6'>
                     <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Company</label>
-                    <select onChange={formik.handleChange} id='product_category' name='product_category' value={formik.values.product_category}  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select onChange={formik.handleChange} id='product_category' name='product_category' value={formik.values.product_category} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option selected>Choose Category</option>
                         {categoreis?.map(cmp => <option value={cmp.category_name}>{cmp.category_name}</option>)}
                     </select>
