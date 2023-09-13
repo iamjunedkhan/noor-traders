@@ -16,8 +16,8 @@ const AdminLogin = () => {
   const { showToast } = useContext(AppContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const isLoggedIn= useSelector(state=>state.admin.is_logged_in);
-  const [isLoggedIn, setIsLoggedIn] = useState(useSelector(state=>state.admin.is_logged_in))
+  const isLoggedIn= useSelector(state=>state.admin.is_logged_in);
+  // const [isLoggedIn, setIsLoggedIn] = useState(useSelector(state=>state.admin.is_logged_in))
   
 
 
