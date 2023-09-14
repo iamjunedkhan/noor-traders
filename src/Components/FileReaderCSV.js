@@ -3,7 +3,7 @@ import Papa from "papaparse";
 import { Client, Databases, ID } from 'appwrite';
 import { Line } from 'rc-progress';
 function FileReaderCSV() {
-    const [data, setData] = useState([]);
+    //const [data, setData] = useState([]);
     const [productData, setProductData] = useState(null)
     const [progressPercent, setProgressPercent] = useState(0);
     // It state will contain the error when
@@ -52,8 +52,8 @@ function FileReaderCSV() {
             const parsedData = csv?.data;
             //   console.log(parsedData);
             setProductData(pre=>parsedData);
-            const columns = Object.keys(parsedData[0]);
-            setData(columns);
+            //const columns = Object.keys(parsedData[0]);
+            //setData(columns);
             console.log('the product data lenght is : ');
             console.log(productData.length);
         };
