@@ -1,14 +1,18 @@
 import { ID } from 'appwrite';
 import React, { useContext, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig'
 import { AppContext } from '../context/appContext';
 
 const appWriteObj = new AppwriteConfig();
 const AddCompany = ({ handleAddCampany,addCampanyInDom }) => {
+    const isLoggedIn = useSelector(state=>state.admin.is_logged_in);
+    const navigate  = useNavigate();
+    if(!isLoggedIn)
+        navigate('/');
     const [company, setCompany] = useState('');
     const { showToast } = useContext(AppContext);
-    const navigate  = useNavigate();
     const handleSaveCompany = () => {
         appWriteObj.databases.createDocument(process.env.REACT_APP_DBKEY ,process.env.REACT_APP_COLLECTION_ID_COMPANIES,ID.unique(),{
             company_name:company

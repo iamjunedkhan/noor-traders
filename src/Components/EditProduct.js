@@ -1,6 +1,7 @@
 import { ID } from 'appwrite';
 import { useFormik } from 'formik'
 import React, { useContext, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import Loader from '../Components/Loader';
@@ -9,7 +10,7 @@ import { AppContext } from '../context/appContext';
 const appObj = new AppwriteConfig();
 
 const EditProduct = () => {
-
+    const isLoggedIn = useSelector(state => state.admin.is_logged_in);
     const params = useParams();
     const product_id = params.product_id;
     const [imageCheckBox, setImageCheckBox] = useState(false);
@@ -89,6 +90,8 @@ const EditProduct = () => {
 
 
     useEffect(() => {
+        if(!isLoggedIn)
+        navigate('/');
         console.log('inside edit product page');
         // setIsLoading(true);
         // fetching product details 

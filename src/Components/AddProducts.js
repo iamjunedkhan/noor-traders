@@ -1,6 +1,7 @@
 import { Databases, ID } from 'appwrite';
 import { useFormik } from 'formik'
 import React, { useContext, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import Loader from '../Components/Loader';
@@ -9,6 +10,7 @@ import { AppContext } from '../context/appContext';
 const appObj = new AppwriteConfig();
 
 const AddProducts = () => {
+    const isLoggedIn = useSelector(state => state.admin.is_logged_in);
     const [image_file, setImage_file] = useState(null);
     const { showToast } = useContext(AppContext);
     const [categoreis, setCategoreis] = useState(null)
@@ -54,7 +56,7 @@ const AddProducts = () => {
                             product_desc: values.product_desc,
                             product_mrp: values.product_mrp,
                             product_category: values.product_category,
-                            product_company:values.product_company,
+                            product_company: values.product_company,
                             product_img_url: `https://cloud.appwrite.io/v1/storage/buckets/${process.env.REACT_APP_PRODUCT_IMAGE_BUCKET}/files/${res.$id}/view?project=${process.env.REACT_APP_PROJECTID}&mode=admin`,
                             img_id: res.$id
                         }).then(res => {
@@ -80,7 +82,7 @@ const AddProducts = () => {
                     product_desc: values.product_desc,
                     product_mrp: values.product_mrp,
                     product_category: values.product_category,
-                    product_company:values.product_company,
+                    product_company: values.product_company,
                     // product_img_url: `https://cloud.appwrite.io/v1/storage/buckets/${process.env.REACT_APP_PRODUCT_IMAGE_BUCKET}/files/${res.$id}/view?project=${process.env.REACT_APP_PROJECTID}&mode=admin`,
                     img_id: ''
                 }).then(res => {
@@ -102,6 +104,8 @@ const AddProducts = () => {
     });
 
     useEffect(() => {
+        if (!isLoggedIn)
+            navigate('/');
         const databases = new Databases(appObj.client);
         databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_CATEGORY)
             .then((response) => {
@@ -126,8 +130,8 @@ const AddProducts = () => {
                 setIsLoading(false);
                 console.log(err);
             });
-    }, [])
-    if (isLoading||companies==null || categoreis==null) {
+    }, [isLoggedIn,navigate])
+    if (isLoading || companies == null || categoreis == null) {
         return <Loader />
     }
     return (

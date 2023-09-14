@@ -77,7 +77,7 @@ function App() {
         <Route path='/contact-us' element={<ContactUs />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/cart/order-now' element={<OrderForm />} />
-        <Route path='/add-product' element={<AddProducts />} />
+        {/* <Route path='/add-product' element={<AddProducts />} /> */}
         <Route path='/category/:campany_name' element={<FilteredProducts queryParameter={'product_category'} />} />
         <Route path='/company/:campany_name' element={<FilteredProducts queryParameter={'product_company'} />} />
         <Route path='/admin/add-product' element={<AddProducts />} />

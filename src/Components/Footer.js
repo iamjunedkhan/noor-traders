@@ -32,13 +32,13 @@ const Footer = () => {
     <div className='signika flex flex-col items-center sm:items-end space-y-1 text-center'>
       <h1 className='text-xl md:text-2xl'>Keep In Touch</h1>
       <div className='flex items-center text-sm md:text-xl space-x-2'>
-        <MdOutlinePermPhoneMsg /> <p>+91 91234 XXXXX</p>
+        <MdOutlinePermPhoneMsg /> <p>+91 82608 24039</p>
       </div>
       <div className='flex items-center text-sm md:text-xl space-x-2'>
         <FiMail /><p>lnoortraders@gmail.com</p>
       </div>
-      <div className='flex items-start text-sm md:text-xl '>
-        <ImLocation2 className='mt-1' /> <p>dummy Streed 123, Temp city  </p>
+      <div className='flex items-start text-sm md:text-xl md:text-right'>
+        <ImLocation2 className='mt-1' /> <p>Kusmi Road,Near Gopal Rice Mill,<br/>Kotpad, Koraput, Odisha</p>
       </div>
       <div className='flex items-center text-sm md:text-xl space-x-2' >
         <p>454449</p>

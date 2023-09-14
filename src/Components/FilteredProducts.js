@@ -34,7 +34,7 @@ const FilteredProducts = ({queryParameter}) => {
       console.log(error); // Failure
       setIsError(true);
     });
-  }, [params.campany_name])
+  }, [params.campany_name,queryParameter])
 
   if (isLoading) {
     return <Loader />

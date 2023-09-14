@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig'
 import { EmptyComponent } from '../Components';
 import Loader from '../Components/Loader';
@@ -8,7 +10,11 @@ const appWriteObj = new AppwriteConfig();
 const Orders = () => {
   const [orders, setOrders] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const isLoggedIn = useSelector(state => state.admin.is_logged_in);
+  const navigate = useNavigate();
   useEffect(() => {
+    if(!isLoggedIn)
+        navigate('/');
     setIsLoading(true);
     appWriteObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_ORDERS)
       .then(res => {
@@ -22,7 +28,7 @@ const Orders = () => {
       })
 
 
-  }, [])
+  }, [isLoggedIn,navigate])
 
   if (isLoading) {
     return <Loader />
