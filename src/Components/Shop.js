@@ -21,7 +21,7 @@ const Shop = () => {
   useEffect(() => {
     // const databases = new Databases(appWriteConfig.client);
     setIsLoading(true);
-    const promise = appWriteConfig.databases.listDocuments(PUBLIC_DBKEY, PUBLIC_COLLECTION_ID_PRODUCTDB, [Query.limit(25),Query.offset(page*25)]);
+    const promise = appWriteConfig.databases.listDocuments(PUBLIC_DBKEY, PUBLIC_COLLECTION_ID_PRODUCTDB, [Query.limit(10),Query.offset(page*10)]);
     promise.then(function (response) {
       console.log('success inside shop');
       console.log(response); // Success

@@ -22,6 +22,10 @@ import AddCategory from "./AddCategory";
 import Orders from "./Orders";
 import OrderCard from "./OrderCard";
 import OrderPage from './OrderPage';
+import FileReaderCSV from "./FileReaderCSV";
+import Company from "./Company";
+import CompanyCard from "./CompanyCard";
+import AddCompany from "./AddCompany";
 
 export {
     AddProducts,
@@ -47,5 +51,9 @@ export {
     ShowProducts,
     NotFound,
     OrderForm,
-    EmptyComponent
+    EmptyComponent,
+    FileReaderCSV,
+    Company,
+    CompanyCard,
+    AddCompany
 }

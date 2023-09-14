@@ -9,7 +9,7 @@ import ShowProducts from './ShowProducts';
 const appWriteConfig = new AppwriteConfig();
 
 
-const FilteredProducts = () => {
+const FilteredProducts = ({queryParameter}) => {
   const params = useParams();
 
   const [productData, setProductData] = useState();
@@ -22,7 +22,7 @@ const FilteredProducts = () => {
     const promise =appWriteConfig.databases.listDocuments(
       process.env.REACT_APP_DBKEY,
       process.env.REACT_APP_COLLECTION_ID_PRODUCTDB,
-      [Query.equal('product_category', params.campany_name)]
+      [Query.equal(queryParameter, params.campany_name)]
     );
     promise.then(function (response) {
       console.log('success');

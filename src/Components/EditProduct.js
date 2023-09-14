@@ -13,10 +13,11 @@ const EditProduct = () => {
     const params = useParams();
     const product_id = params.product_id;
     const [imageCheckBox, setImageCheckBox] = useState(false);
-
+    const [productValues, setProductValues] = useState(null)
     const [image_file, setImage_file] = useState(null);
     const { showToast } = useContext(AppContext);
     const [categoreis, setCategoreis] = useState(null)
+    const [companies, setCompanies] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate();
     const formik = useFormik({
@@ -25,16 +26,18 @@ const EditProduct = () => {
             product_desc: '',
             product_mrp: '',
             product_category: '',
+            product_company: '',
         },
         onSubmit: values => {
             setIsLoading(true)
             if (!imageCheckBox) {
                 appObj.databases.updateDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, product_id,
                     {
-                        product_name: values.product_name,
-                        product_desc: values.product_desc,
-                        product_mrp: values.product_mrp,
-                        product_category: values.product_category
+                        product_name: productValues.product_name,
+                        product_desc: productValues.product_desc,
+                        product_mrp: productValues.product_mrp,
+                        product_category: productValues.product_category,
+                        product_company: productValues.product_company,
                     })
                     .then(res => {
                         console.log('success|updatedoc');
@@ -54,10 +57,11 @@ const EditProduct = () => {
                     .then(res => {
                         appObj.databases.updateDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, product_id,
                             {
-                                product_name: values.product_name,
-                                product_desc: values.product_desc,
-                                product_mrp: values.product_mrp,
-                                product_category: values.product_category,
+                                product_name: productValues.product_name,
+                                product_desc: productValues.product_desc,
+                                product_mrp: productValues.product_mrp,
+                                product_category: productValues.product_category,
+                                product_company: productValues.product_company,
                                 product_img_url: `https://cloud.appwrite.io/v1/storage/buckets/${process.env.REACT_APP_PRODUCT_IMAGE_BUCKET}/files/${res.$id}/view?project=${process.env.REACT_APP_PROJECTID}&mode=admin`,
                                 img_id: res.$id
                             })
@@ -82,7 +86,8 @@ const EditProduct = () => {
 
         },
     });
-    
+
+
     useEffect(() => {
         console.log('inside edit product page');
         // setIsLoading(true);
@@ -91,10 +96,18 @@ const EditProduct = () => {
             .then((res) => {
                 console.log('inside edit/get  product');
                 console.log('res is ', res);
-                formik.values.product_name = res.product_name;
-                formik.values.product_desc = res.product_desc;
-                formik.values.product_mrp = res.product_mrp;
-                formik.values.product_category = res.product_category;
+                // formik.values.product_name = res.product_name;
+                // formik.values.product_desc = res.product_desc;
+                // formik.values.product_mrp = res.product_mrp;
+                // formik.values.product_category = res.product_category;
+                // formik.values.product_company = res.product_company;
+                setProductValues({
+                    product_name :res.product_name,
+                    product_desc :res.product_desc,
+                    product_mrp :res.product_mrp,
+                    product_category :res.product_category,
+                    product_company :res.product_company,
+                })
                 setIsLoading(false);
 
             }).catch(err => {
@@ -113,7 +126,21 @@ const EditProduct = () => {
                 console.log('error from get Categories');
                 console.log(err);
             });
-    }, [formik.values,product_id])
+
+        // fetching the companies also 
+        appObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES)
+            .then((response) => {
+                console.log('success from get Categories');
+                console.log(response); // Success
+                setCompanies(response.documents);
+            }).catch(err => {
+                console.log('error from get Categories');
+                console.log(err);
+            });
+
+
+
+    }, [product_id])
 
     if (isLoading) {
         return <Loader />
@@ -126,15 +153,18 @@ const EditProduct = () => {
             <form className='border-2 border-dark m-6 md:m-12 p-12 rounded-xl' onSubmit={formik.handleSubmit} >
                 <div class="mb-6">
                     <label for="product_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Name</label>
-                    <input type="text" onChange={formik.handleChange} value={formik.values.product_name} id="product_name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="" required />
+                    <input type="text" 
+                    onChange={(e)=>setProductValues({...productValues,product_name:e.target.value})} 
+                    value={productValues.product_name} id="product_name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="" required />
                 </div>
                 <div class="mb-6">
                     <label for="product_desc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Description</label>
-                    <input type="text" onChange={formik.handleChange} value={formik.values.product_desc} id="product_desc" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="" required />
+                    <input type="text" 
+                    onChange={(e)=>setProductValues({...productValues,product_desc:e.target.value})} value={productValues.product_desc} id="product_desc" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="" required />
                 </div>
                 <div class="mb-6">
                     <label for="product_mrp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your MRP</label>
-                    <input type="number" onChange={formik.handleChange} value={formik.values.product_mrp} id="product_mrp" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+                    <input type="number" onChange={e=>setProductValues({...productValues,product_mrp:e.target.value})} value={productValues.product_mrp} id="product_mrp" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
                 </div>
                 <div class="flex items-center mb-4">
                     <input id="default-checkbox" type="checkbox" checked={imageCheckBox} onChange={() => setImageCheckBox(!imageCheckBox)} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
@@ -146,10 +176,20 @@ const EditProduct = () => {
                 </div>}
 
                 <div className='mb-6'>
-                    <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Company</label>
-                    <select onChange={formik.handleChange} id='product_category' name='product_category' value={formik.values.product_category} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <label for="product_category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Company</label>
+                    <select onChange={e=>setProductValues({...productValues,product_category:e.target.value})} id='product_category' name='product_category' value={productValues.product_category} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option selected>Choose Category</option>
                         {categoreis?.map(cmp => <option value={cmp.category_name}>{cmp.category_name}</option>)}
+                    </select>
+                </div>
+                <div className='mb-6'>
+                    <label for="product_companies" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Company</label>
+                    <select 
+                    onChange={e=>setProductValues({...productValues,product_company:e.target.value})} 
+                    id='product_companies' name='product_companies' 
+                    value={productValues.product_company} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option selected>Choose Company</option>
+                        {companies?.map(cmp => <option value={cmp.company_name}>{cmp.company_name}</option>)}
                     </select>
                 </div>
 
