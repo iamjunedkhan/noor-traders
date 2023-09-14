@@ -7,7 +7,7 @@ import './App.css';
 import { PUBLIC_ADMIN_EMAIL_HASH, PUBLIC_ADMIN_NAME_HASH, PUBLIC_LOGGEDIN_HASH } from './contastans/constant';
 import { AppContext } from './context/appContext';
 import {login} from './features/admin/adminSlice'
-import { Company, FileReaderCSV } from './Components';
+import {Company} from './Components';
 import { Cart, Category, ContactUs, FilteredProducts, Footer, Hero, Navbar, NotFound, OrderForm, Shop ,AddProducts,DashBoard,AdminLogin,EditProduct, Orders, OrderPage} from './Components';
 
 
@@ -86,7 +86,7 @@ function App() {
         <Route path='/admin/edit-product/:product_id' element={<EditProduct />} />
         <Route path='/admin/orders' element={<Orders />} />
         <Route path='/admin/orders/:order_id' element={<OrderPage />} />
-        <Route path='/admin/file-reader' element={<FileReaderCSV />} />
+        {/* <Route path='/admin/file-reader' element={<FileReaderCSV />} /> */}
         <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
