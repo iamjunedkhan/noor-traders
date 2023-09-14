@@ -99,11 +99,6 @@ const EditProduct = () => {
             .then((res) => {
                 console.log('inside edit/get  product');
                 console.log('res is ', res);
-                // formik.values.product_name = res.product_name;
-                // formik.values.product_desc = res.product_desc;
-                // formik.values.product_mrp = res.product_mrp;
-                // formik.values.product_category = res.product_category;
-                // formik.values.product_company = res.product_company;
                 setProductValues({
                     product_name :res.product_name,
                     product_desc :res.product_desc,
@@ -143,7 +138,7 @@ const EditProduct = () => {
 
 
 
-    }, [product_id])
+    }, [navigate,isLoggedIn,product_id])
 
     if (isLoading) {
         return <Loader />
