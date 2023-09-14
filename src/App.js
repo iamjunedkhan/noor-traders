@@ -8,7 +8,10 @@ import { PUBLIC_ADMIN_EMAIL_HASH, PUBLIC_ADMIN_NAME_HASH, PUBLIC_LOGGEDIN_HASH }
 import { AppContext } from './context/appContext';
 import { login } from './features/admin/adminSlice'
 import { Company } from './Components';
-import { Cart, Category, ContactUs, FilteredProducts, Footer, Hero, Navbar, NotFound, OrderForm, Shop, AddProducts, DashBoard, AdminLogin, EditProduct, Orders, OrderPage } from './Components';
+import { Cart, Category, ContactUs, FilteredProducts, Footer, Hero, 
+  Navbar, NotFound, OrderForm, Shop, AddProducts, DashBoard, AdminLogin,
+   EditProduct, Orders, OrderPage } from './Components';
+
 
 
 
