@@ -16,6 +16,7 @@ import { Cart, Category, ContactUs, FilteredProducts, Footer, Hero,
 
 
 function App() {
+  //a test comment for checking changes 
   const dispatch = useDispatch();
   const showToast = (msg, isError = false) => {
     if (!isError) {
