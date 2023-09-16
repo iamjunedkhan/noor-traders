@@ -44,8 +44,8 @@ const Category = () => {
       <section className="text-gray-600 body-font ">
         <div className="container px-5 py-24 mx-auto w-full md:w-3/4">
           <div className="flex flex-col text-center w-full  mb-10">
-            <h2 className="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">Our Trusted Partner Companies</h2>
-            <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">Featured Partners and Affiliates</h1>
+            <h2 className="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">Explore, Click, Repeat – Find the Ideal Products in Every Category</h2>
+            <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900">Shop by Category: Discover Your Perfect Fit!</h1>
             {isLoggedIn&&<button type="button"
               className="text-white  bg-indigo-700  hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 my-4  w-fit " 
               onClick={handleAddCategory}>Add Category</button>}

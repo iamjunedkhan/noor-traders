@@ -1,5 +1,5 @@
 /*This file will show the product based on the company when user click the perticular company */
-import {  Query } from 'appwrite';
+import { Query } from 'appwrite';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { AppwriteConfig } from '../appwrite/appWriteConfig';
@@ -9,20 +9,21 @@ import ShowProducts from './ShowProducts';
 const appWriteConfig = new AppwriteConfig();
 
 
-const FilteredProducts = ({queryParameter}) => {
+const FilteredProducts = ({ queryParameter }) => {
   const params = useParams();
 
   const [productData, setProductData] = useState();
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
     // const databases = new Databases(appWriteConfig.client);
-    const promise =appWriteConfig.databases.listDocuments(
+    setIsLoading(true);
+    const promise = appWriteConfig.databases.listDocuments(
       process.env.REACT_APP_DBKEY,
       process.env.REACT_APP_COLLECTION_ID_PRODUCTDB,
-      [Query.equal(queryParameter, params.campany_name)]
+      [Query.equal(queryParameter, params.campany_name), Query.limit(24), Query.offset(page *24)]
     );
     promise.then(function (response) {
       console.log('success');
@@ -34,7 +35,7 @@ const FilteredProducts = ({queryParameter}) => {
       console.log(error); // Failure
       setIsError(true);
     });
-  }, [params.campany_name,queryParameter])
+  }, [params.campany_name, queryParameter, page])
 
   if (isLoading) {
     return <Loader />
@@ -62,6 +63,29 @@ const FilteredProducts = ({queryParameter}) => {
         </div>
       </div> */}
       <ShowProducts isError={isError} productData={productData} />
+      {/* {productData.length !== 0 && <ShowProducts isError={isError} productData={productData} />} */}
+      {productData.length == 0 && <h1 className='text-center text-xl mb-24'>You have vivwed all the products</h1>}
+      <div className='flex justify-center mb-12'>
+        <ul class="inline-flex -space-x-px text-sm ">
+          <li className='cursor-pointer'>
+            <p class={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-white bg-indigo-600   rounded-l-lg ${page === 0 ? 'bg-blue-300' : 'hover:bg-indigo-700'}`} onClick={() => {
+              if (page === 0)
+                return;
+              setPage(pre => pre - 1)
+            }} >Previous</p>
+          </li>
+          <li>
+            <p href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-white bg-indigo-600 hover:bg-indigo-700">{page + 1}</p>
+          </li>
+          <li className='cursor-pointer'>
+            <p class={`flex items-center justify-center px-3 h-8 leading-tight text-white rounded-r-lg bg-indigo-600  ${productData.length === 0 ? 'bg-blue-300' : 'hover:bg-indigo-700'}`} onClick={() => {
+              if (productData.length === 0)
+                return;
+              setPage(pre => pre + 1)
+            }}>Next</p>
+          </li>
+        </ul>
+      </div>
     </section>
 
   )

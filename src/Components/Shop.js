@@ -21,7 +21,7 @@ const Shop = () => {
   useEffect(() => {
     // const databases = new Databases(appWriteConfig.client);
     setIsLoading(true);
-    const promise = appWriteConfig.databases.listDocuments(PUBLIC_DBKEY, PUBLIC_COLLECTION_ID_PRODUCTDB, [Query.limit(10),Query.offset(page*10)]);
+    const promise = appWriteConfig.databases.listDocuments(PUBLIC_DBKEY, PUBLIC_COLLECTION_ID_PRODUCTDB, [Query.limit(24),Query.offset(page*24)]);
     promise.then(function (response) {
       console.log('success inside shop');
       console.log(response); // Success
@@ -76,7 +76,7 @@ const Shop = () => {
       <ShowProducts productData={productData} isError={isError} />
       <div className='flex justify-center mb-12'>
         <ul class="inline-flex -space-x-px text-sm ">
-          <li>
+          <li className='cursor-pointer'>
             <p class={`flex items-center justify-center px-3 h-8 ml-0 leading-tight text-white bg-indigo-600   rounded-l-lg ${page===0?'bg-blue-300':'hover:bg-indigo-700'}`} onClick={()=>{
               if(page===0)
               return ;
@@ -85,7 +85,7 @@ const Shop = () => {
           <li>
       <p href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-white bg-indigo-600 hover:bg-indigo-700">{page+1}</p>
     </li>
-          <li>
+          <li className='cursor-pointer'>
             <p class={`flex items-center justify-center px-3 h-8 leading-tight text-white rounded-r-lg bg-indigo-600  ${productData.length===0?'bg-blue-300':'hover:bg-indigo-700'}`} onClick={()=>{
                   if(productData.length===0)
                   return ;

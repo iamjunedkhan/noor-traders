@@ -41,7 +41,7 @@ const Footer = () => {
         <ImLocation2 className='mt-1' /> <p>Kusmi Road,Near Gopal Rice Mill,<br/>Kotpad, Koraput, Odisha</p>
       </div>
       <div className='flex items-center text-sm md:text-xl space-x-2' >
-        <p>454449</p>
+        <p>764058</p>
 
       </div>
     </div>

@@ -6,7 +6,7 @@ const Loader = () => {
         <div className='h-91 w-full flex justify-center items-center'>
             <InfinitySpin
                 width='200'
-                color="#4fa94d"
+                color="#2563eb"
             />
         </div>)
 }

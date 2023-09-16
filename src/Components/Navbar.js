@@ -47,7 +47,7 @@ const Navbar = ({ showToast }) => {
           {showNavbar ? <GrFormClose onClick={() => setShowNavbar(false)} className={`  transition-all duration-200 bg-white text-white `} /> : <GiHamburgerMenu onClick={() => setShowNavbar(true)} className={` transition-all duration-200 `} />}
         </div>
       </div>
-      <div className={` bg-dark text-xl text-white flex flex-col justify-center overflow-hidden transition-all duration-300  ${showNavbar ? (isLoggedIn?'h-[310px]':'h-[230px]') : 'h-0'}`}>
+      <div className={` bg-dark text-xl text-white flex flex-col justify-center overflow-hidden transition-all duration-300  ${showNavbar ? (isLoggedIn?'h-[310px]':'h-[280px]') : 'h-0'}`}>
         <span className={`px-3 mx-4 my-2 hover:scale-105  hover:font-semibold cursor-pointer transition-all duration-150 relative `}><NavLink onClick={() => setShowNavbar(false)} to="/" >Home</NavLink></span>
         <span className={`px-3 mx-4 my-2 hover:scale-105  hover:font-semibold cursor-pointer transition-all duration-150 relative `}><NavLink onClick={() => setShowNavbar(false)} to="/shop" >Shop</NavLink></span>
         <span className={`px-3 mx-4 my-2 hover:scale-105  hover:font-semibold cursor-pointer transition-all duration-150 relative `}><NavLink onClick={() => setShowNavbar(false)} to="/company" >Company</NavLink></span>
