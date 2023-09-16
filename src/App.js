@@ -14,6 +14,7 @@ import {
   Navbar, NotFound, OrderForm, Shop, AddProducts, DashBoard, AdminLogin,
   EditProduct, Orders, OrderPage
 } from './Components';
+import { initializeCart } from './features/cart/cartSlice';
 
 
 
@@ -51,7 +52,9 @@ function App() {
   useEffect(() => {
     let isLoggedIn = localStorage.getItem(process.env.REACT_APP_LOGGEDIN_HASH);
     let userDetails = JSON.parse(localStorage.getItem(process.env.REACT_APP_USER_DETAILS_HASH));
+    let noorTradersCart = JSON.parse(localStorage.getItem('NoorTradersCart'));
     console.log('the user details in app js is '+JSON.stringify(userDetails));
+    console.log('the noortraders cart is :'+noorTradersCart);
     console.log({ isLoggedIn });
     if (isLoggedIn) {
       let adminName = localStorage.getItem(PUBLIC_ADMIN_NAME_HASH);
@@ -67,6 +70,13 @@ function App() {
             user_shipping_address:userDetails.user_shipping_address
           }))
     }
+    if(noorTradersCart!=null && noorTradersCart !==undefined && noorTradersCart!==''){
+      console.log('noortraders cart is ');
+      console.log(...noorTradersCart);
+      dispatch(initializeCart([...noorTradersCart]));
+    }
+
+
 
   },)
 
