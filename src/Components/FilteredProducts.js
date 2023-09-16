@@ -64,7 +64,7 @@ const FilteredProducts = ({ queryParameter }) => {
       </div> */}
       <ShowProducts isError={isError} productData={productData} />
       {/* {productData.length !== 0 && <ShowProducts isError={isError} productData={productData} />} */}
-      {productData.length == 0 && <h1 className='text-center text-xl mb-24'>You have vivwed all the products</h1>}
+      {productData.length === 0 && <h1 className='text-center text-xl mb-24'>You have vivwed all the products</h1>}
       <div className='flex justify-center mb-12'>
         <ul class="inline-flex -space-x-px text-sm ">
           <li className='cursor-pointer'>
