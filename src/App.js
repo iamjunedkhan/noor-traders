@@ -4,13 +4,16 @@ import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import './App.css';
-import { PUBLIC_ADMIN_EMAIL_HASH, PUBLIC_ADMIN_NAME_HASH, PUBLIC_LOGGEDIN_HASH } from './contastans/constant';
+import { PUBLIC_ADMIN_EMAIL_HASH, PUBLIC_ADMIN_NAME_HASH } from './contastans/constant';
 import { AppContext } from './context/appContext';
 import { login } from './features/admin/adminSlice'
+import { initializeUserDetails } from './features/user/userSlice';
 import { Company } from './Components';
-import { Cart, Category, ContactUs, FilteredProducts, Footer, Hero, 
+import {
+  Cart, Category, ContactUs, FilteredProducts, Footer, Hero,
   Navbar, NotFound, OrderForm, Shop, AddProducts, DashBoard, AdminLogin,
-   EditProduct, Orders, OrderPage } from './Components';
+  EditProduct, Orders, OrderPage
+} from './Components';
 
 
 
@@ -46,13 +49,23 @@ function App() {
     // toast('this is message');
   }
   useEffect(() => {
-    let isLoggedIn = localStorage.getItem(PUBLIC_LOGGEDIN_HASH);
+    let isLoggedIn = localStorage.getItem(process.env.REACT_APP_LOGGEDIN_HASH);
+    let userDetails = JSON.parse(localStorage.getItem(process.env.REACT_APP_USER_DETAILS_HASH));
+    console.log('the user details in app js is '+JSON.stringify(userDetails));
     console.log({ isLoggedIn });
     if (isLoggedIn) {
       let adminName = localStorage.getItem(PUBLIC_ADMIN_NAME_HASH);
       let admin_email = localStorage.getItem(PUBLIC_ADMIN_EMAIL_HASH);
       console.log({ adminName });
       dispatch(login({ admin_name: adminName, admin_email: admin_email }))
+    }
+    if(userDetails !=null &&userDetails!==undefined && userDetails!=='' ){
+          dispatch(initializeUserDetails({user_name:userDetails.user_name,
+            user_email:userDetails.user_email,
+            user_phone:userDetails.user_phone,
+            user_details_exist:userDetails.user_details_exist,
+            user_shipping_address:userDetails.user_shipping_address
+          }))
     }
 
   },)
