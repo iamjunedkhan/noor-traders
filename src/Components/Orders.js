@@ -17,7 +17,7 @@ const Orders = () => {
     if(!isLoggedIn)
         navigate('/');
     setIsLoading(true);
-    appWriteObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_ORDERS,Query.limit(100),Query.orderDesc('$createdAt'))
+    appWriteObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_ORDERS,[Query.limit(100),Query.orderDesc('$createdAt')])
       .then(res => {
         console.log('the orders is:res ');
         console.log(res.documents);
