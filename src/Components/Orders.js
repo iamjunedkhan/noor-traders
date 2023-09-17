@@ -5,6 +5,7 @@ import { AppwriteConfig } from '../appwrite/appWriteConfig'
 import { EmptyComponent } from '../Components';
 import Loader from '../Components/Loader';
 import OrderCard from './OrderCard'
+import { Query } from 'appwrite';
 
 const appWriteObj = new AppwriteConfig();
 const Orders = () => {
@@ -16,7 +17,7 @@ const Orders = () => {
     if(!isLoggedIn)
         navigate('/');
     setIsLoading(true);
-    appWriteObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_ORDERS)
+    appWriteObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_ORDERS,Query.limit(100),Query.orderDesc('$createdAt'))
       .then(res => {
         console.log('the orders is:res ');
         console.log(res.documents);
