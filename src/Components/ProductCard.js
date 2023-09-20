@@ -38,7 +38,7 @@ const ProductCard = ({ productName, desc, company, mrp, img, img_id, id, categor
                 <div class="p-6">
                     <div>
                         <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb">{category}</h2>
-                        <h1 class="title-font text-base md:text-lg font-medium text-gray-900 mb-1">{productName} ({desc})</h1>
+                        <h1 class="title-font text-base md:text-lg font-medium text-gray-900 mb-1">{productName} {(desc!==null&&desc!=='')?`(${desc})`:''} </h1>
                         <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">MRP:{mrp}Rs</span>
                     </div>
                     <div class="flex   items-center justify-between flex-wrap my-2 ">
