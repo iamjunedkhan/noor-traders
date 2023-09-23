@@ -28,7 +28,7 @@ const Navbar = ({ showToast }) => {
     <>
       <div className=' bg-dark text-white p-4 md:px-20 flex justify-between items-center relative'>
         <div>
-          <h1 className='text-xl' onClick={() => showToast('mest')} >Noor Traders Test</h1>
+          <h1 className='text-xl' onClick={() => showToast('mest')} >Noor Traders</h1>
         </div>
 
         <div className='hidden md:block bg-dark text-xl text-white'>
