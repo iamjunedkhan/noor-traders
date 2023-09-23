@@ -48,6 +48,7 @@ const AddProducts = () => {
             console.log('product mrp is ' + values.product_mrp);
             setIsLoading(true);
             if (image_file != null) {
+                console.log(image_file);
                 appObj.storage.createFile(process.env.REACT_APP_PRODUCT_IMAGE_BUCKET, ID.unique(), image_file)
                     .then(res => {
                         console.log('inside create file | the res is :' + res);
@@ -130,7 +131,7 @@ const AddProducts = () => {
                 setIsLoading(false);
                 console.log(err);
             });
-    }, [isLoggedIn,navigate])
+    }, [isLoggedIn, navigate])
     if (isLoading || companies == null || categoreis == null) {
         return <Loader />
     }

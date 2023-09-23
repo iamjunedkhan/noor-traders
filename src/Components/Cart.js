@@ -26,7 +26,7 @@ const Cart = () => {
             {cart.products.length === 0 && <h1 className='text-xl'>Currently Cart is empty. Go To shop and add items.</h1>}
             {cart.products.map((prod, index) => {
               console.log(prod);
-              return <CartItem key={prod.product_name} id={prod.id} product_name={prod.product_name} quantity={prod.quantity} index={index + 1} />
+              return <CartItem key={prod.product_name} id={prod.id} product_name={prod.product_name} quantity={prod.quantity} index={index + 1} mrp= {prod.product_mrp} desc={prod.product_desc} />
             })}
           </div>
           {cart.products.length > 0 && <button class="flex mx-auto mt-16 text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" onClick={() => toggleShowOrderDetailsForm()}>Order Now</button>}

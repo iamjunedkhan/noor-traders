@@ -45,7 +45,7 @@ const ProductCard = ({ productName, desc, company, mrp, img, img_id, id, categor
                         <button type="button" class="text-white  bg-indigo-700  hover:bg-indigo-800 focus:ring-4 focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 focus:outline-none dark:focus:ring-indigo-800 w-full md:w-fit "
                             onClick={() => {
                                 showToast('Product Added To cart!');
-                                dispatch(addProduct({ product_name: productName, quantity: 1, id: id,product_category:category }))
+                                dispatch(addProduct({ product_name: productName, quantity: 1, id: id,product_category:category,product_mrp:mrp,product_desc:desc }))
                             }
                             }
                         >Add To Cart</button>
