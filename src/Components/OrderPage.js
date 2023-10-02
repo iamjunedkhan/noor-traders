@@ -126,6 +126,9 @@ const OrderPage = () => {
                                         Category
                                     </th>
                                     <th scope="col" className="px-6 py-3">
+                                        MRP
+                                    </th>
+                                    <th scope="col" className="px-6 py-3">
                                         Action
                                     </th>
                                 </tr>
@@ -135,13 +138,16 @@ const OrderPage = () => {
                                     console.log(prod);
                                     return <tr key={prod.$id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {prod.product_name}
+                                            {prod.product_name} ({prod.product_desc})
                                         </th>
                                         <td className="px-6 py-4">
                                             {prod.quantity}
                                         </td>
                                         <td className="px-6 py-4">
                                             {prod.product_category}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {prod.product_mrp}
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center mr-4">
