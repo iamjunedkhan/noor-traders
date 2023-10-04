@@ -6,42 +6,60 @@ import { AppwriteConfig } from '../appwrite/appWriteConfig'
 import { AppContext } from '../context/appContext';
 
 const appWriteObj = new AppwriteConfig();
-const AddCompany = ({ handleAddCampany,addCampanyInDom }) => {
-    const isLoggedIn = useSelector(state=>state.admin.is_logged_in);
-    const navigate  = useNavigate();
+const AddCompany = ({ handleAddCampany, addCampanyInDom }) => {
+    const isLoggedIn = useSelector(state => state.admin.is_logged_in);
+    const navigate = useNavigate();
     const [image_file, setImage_file] = useState(null);
-    if(!isLoggedIn)
+    if (!isLoggedIn)
         navigate('/');
     const [company, setCompany] = useState('');
     const { showToast } = useContext(AppContext);
     const handleSaveCompany = () => {
 
-        
-        appWriteObj.storage.createFile(process.env.REACT_APP_PRODUCT_IMAGE_BUCKET, ID.unique(), image_file)
-        .then(res=>{
+        if (image_file != null || image_file != undefined) {
+            appWriteObj.storage.createFile(process.env.REACT_APP_PRODUCT_IMAGE_BUCKET, ID.unique(), image_file)
+                .then(res => {
 
+                    // creating the document 
+                    appWriteObj.databases.createDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES, ID.unique(), {
+                        company_name: company,
+                        img_id: res.$id,
+                        img_url: `https://cloud.appwrite.io/v1/storage/buckets/${process.env.REACT_APP_PRODUCT_IMAGE_BUCKET}/files/${res.$id}/view?project=${process.env.REACT_APP_PROJECTID}&mode=admin`
+                    })
+                        .then(res => {
+                            console.log('addCompany res:' + res);
+                            showToast('company added Successfully.');
+                            handleAddCampany();
+                            addCampanyInDom({ $id: ID.unique(), company_name: company })
+                            navigate('/company');
+                        })
+                        .catch(err => {
+                            console.log('addCompany err ' + err);
+                            showToast('company not added. Some error occured', true);
+                            handleAddCampany()
+                        })
+
+                })
+        }else{
             // creating the document 
-            appWriteObj.databases.createDocument(process.env.REACT_APP_DBKEY ,process.env.REACT_APP_COLLECTION_ID_COMPANIES,ID.unique(),{
-                company_name:company,
-                img_id:res.$id,
-                img_url:`https://cloud.appwrite.io/v1/storage/buckets/${process.env.REACT_APP_PRODUCT_IMAGE_BUCKET}/files/${res.$id}/view?project=${process.env.REACT_APP_PROJECTID}&mode=admin`
+            appWriteObj.databases.createDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES, ID.unique(), {
+                company_name: company
             })
-            .then(res=>{
-                console.log('addCompany res:'+res);
-                showToast('company added Successfully.');
-                handleAddCampany();
-                addCampanyInDom({$id:ID.unique(),company_name:company})
-                navigate('/company');
-            })
-            .catch(err=>{
-                console.log('addCompany err '+err);
-                showToast('company not added. Some error occured',true);
-                handleAddCampany()
-            })
+                .then(res => {
+                    console.log('addCompany res:' + res);
+                    showToast('company added Successfully.');
+                    handleAddCampany();
+                    addCampanyInDom({ $id: ID.unique(), company_name: company })
+                    navigate('/company');
+                })
+                .catch(err => {
+                    console.log('addCompany err ' + err);
+                    showToast('company not added. Some error occured', true);
+                    handleAddCampany()
+                })
+        }
 
-        })
 
-        
     }
     return (
         <div className="w-full  z-50   h-full fixed  bg-black/70 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  flex justify-center items-center ">
