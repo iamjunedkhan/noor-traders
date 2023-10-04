@@ -4,6 +4,7 @@ import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import Loader from './Loader';
 import AddCompany from './AddCompany';
 import CompanyCard from './CompanyCard';
+import { Query } from 'appwrite';
 
 const appWriteConfig = new AppwriteConfig();
 
@@ -22,17 +23,19 @@ const Company = () => {
     setCompanyData([...companyData,data]);
   }
   useEffect(() => {
-
-    
-    appWriteConfig.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES)
+    appWriteConfig.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES,[Query.limit(100)])
     .then(res=> {
       setCompanyData(res.documents);
+      console.log('====================================');
+      console.log('the company data is ');
+      console.log(res);
+      console.log('====================================');
       setIsLoading(false);})
     .catch( (error)=> {
       console.log(error);
       // setIsError(true);
     });
-  }, [companyData])
+  }, [])
 
   if (isLoading) {
     return <Loader />
@@ -52,7 +55,7 @@ const Company = () => {
           </div>
           <div className="flex flex-wrap  -m-4">
             {companyData?.map(cmp => {
-              return <CompanyCard key={cmp.$id} id={cmp.$id} name={cmp.company_name} />
+              return <CompanyCard key={cmp.$id} id={cmp.$id} name={cmp.company_name} img_url={cmp.img_url} img_id={cmp.img_id} />
             })}
 
           </div>

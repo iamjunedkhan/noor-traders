@@ -5,7 +5,7 @@ import { AppwriteConfig } from '../appwrite/appWriteConfig';
 import { AppContext } from '../context/appContext';
 
 const appwrite = new AppwriteConfig();
-const CompanyCard = ({ name, id }) => {
+const CompanyCard = ({ name, id, img_id, img_url }) => {
   const currentCard = useRef();
   const [company, setCompany] = useState(name);
   const [isEditMode, setIsEditMode] = useState(false)
@@ -19,8 +19,18 @@ const CompanyCard = ({ name, id }) => {
     appwrite.databases.deleteDocument(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES, id)
       .then(res => {
         showToast('Products deleted successfully.');
-        // currentCard.current.remove();
-        console.log(currentCard.current);
+        currentCard.current.remove();
+        // console.log(currentCard.current);
+        console.log('img_id '+img_id);
+        if (img_id != null) {
+          
+          appwrite.storage.deleteFile(process.env.REACT_APP_PRODUCT_IMAGE_BUCKET, img_id)
+          .then(res => {
+            console.log('image deleted successfully ' + res);
+          }).catch(err => {
+            console.log('some error occured while delete the image in companies ' + err);
+          })
+        }
       }).catch(err => {
         showToast('Sorry,Product not deleted. Some error occured.', true);
       })
@@ -44,27 +54,37 @@ const CompanyCard = ({ name, id }) => {
 
   return (
     <div className="p-4 md:w-1/3 w-full" ref={currentCard}>
-      <div className="flex rounded-lg h-full bg-dark text-white py-4 px-6 flex-col">
 
-        {isEditMode ? <div className='flex items-center mb-3'>
-          <input type="text"
-            onChange={(e) => setCompany(e.target.value)}
-            value={company}
-            id="company"
-            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-            placeholder="" />
-        </div> : <h2 className="text-white text-lg title-font font-medium ">{company}</h2>}
-        <div className="flex-grow">
-          <Link to={`/company/${name}`} className="mt-1 text-white inline-flex items-center hover:underline underline-offset-2">View All Products
-            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </Link>
+      <div className="flex rounded-lg h-full overflow-hidden bg-dark text-white  flex-col productCard_shadow">
+        <div className='bg-gray-700 w-full h-[180px] overflow-hidden '>
+          <img src={img_url}
+            alt='Company img here'
+            className='w-full h-full'
+          />
         </div>
-        <div className='mt-2'>
-          {isLoggedIn && <button type="button" onClick={() => handleEditSave()} className="text-black  bg-white  hover:bg-gray-200  focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">{isEditMode ? 'Save' : 'Edit'}</button>}
-          {isLoggedIn && <button type="button" onClick={() => handleDelete()} className="text-white  bg-red-700  hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">Delete</button>}
+        <div className='py-4 px-6'>
+
+          {isEditMode ? <div className='flex items-center mb-3'>
+            <input type="text"
+              onChange={(e) => setCompany(e.target.value)}
+              value={company}
+              id="company"
+              className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+              placeholder="" />
+          </div> : <h2 className="text-white text-lg title-font font-medium ">{company}</h2>}
+          <div className="flex-grow">
+            <Link to={`/company/${name}`} className="mt-1 text-white inline-flex items-center hover:underline underline-offset-2">View All Products
+              <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </Link>
+          </div>
+          <div className='mt-2'>
+            {isLoggedIn && <button type="button" onClick={() => handleEditSave()} className="text-black  bg-white  hover:bg-gray-200  focus:ring-black font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">{isEditMode ? 'Save' : 'Edit'}</button>}
+            {isLoggedIn && <button type="button" onClick={() => handleDelete()} className="text-white  bg-red-700  hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  w-full md:w-fit flex-1">Delete</button>}
+          </div>
         </div>
+
       </div>
     </div>
   )
