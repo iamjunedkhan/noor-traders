@@ -14,7 +14,8 @@ const BulkDelete = () => {
                     console.log(res);
                     setOffset(pre => pre + 100);
                     console.log('the offset is ' + offset)
-                    allProducts.push(...res.documents)
+                    // allProducts.push(...res.documents)
+                    setAllProducts([...allProducts,...res.documents])
                 }
             )
     }
