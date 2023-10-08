@@ -26,6 +26,8 @@ import FileReaderCSV from "./FileReaderCSV";
 import Company from "./Company";
 import CompanyCard from "./CompanyCard";
 import AddCompany from "./AddCompany";
+import SearchProduct from "./SearchProduct";
+import BulkDelete from './BulkDelete';
 
 export {
     AddProducts,
@@ -55,5 +57,7 @@ export {
     FileReaderCSV,
     Company,
     CompanyCard,
-    AddCompany
+    AddCompany,
+    SearchProduct,
+    BulkDelete
 }

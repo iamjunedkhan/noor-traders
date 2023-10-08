@@ -90,7 +90,7 @@ function FileReaderCSV() {
             setProgressPercent(Math.floor((count / length) * 100));
             if (count >=length)
                 clearInterval(interval);
-        }, 1500);
+        }, 2000);
 
     }
 

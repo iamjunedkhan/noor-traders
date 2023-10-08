@@ -25,9 +25,12 @@ const cartSlice = createSlice({
       if (state.products[index].quantity === 0) {
         state.products = state.products.filter(prod => prod.id !== action.payload.id);
       }
+      localStorage.setItem('NoorTradersCart',JSON.stringify(state.products))
+
     },
     removeItem: (state, action) => {
       state.products = state.products.filter(prod => prod.id !== action.payload);
+      localStorage.setItem('NoorTradersCart',JSON.stringify(state.products))
     },
     initializeCart: (state, action) => {
       console.log('inside cart slice ')

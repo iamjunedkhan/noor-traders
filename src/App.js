@@ -8,11 +8,10 @@ import { PUBLIC_ADMIN_EMAIL_HASH, PUBLIC_ADMIN_NAME_HASH } from './contastans/co
 import { AppContext } from './context/appContext';
 import { login } from './features/admin/adminSlice'
 import { initializeUserDetails } from './features/user/userSlice';
-import { Company } from './Components';
 import {
   Cart, Category, ContactUs, FilteredProducts, Footer, Hero,
   Navbar, NotFound, OrderForm, Shop, AddProducts, DashBoard, AdminLogin,
-  EditProduct, Orders, OrderPage
+  EditProduct, Orders, OrderPage,BulkDelete, Company, SearchProduct, FileReaderCSV 
 } from './Components';
 import { initializeCart } from './features/cart/cartSlice';
 
@@ -113,7 +112,10 @@ function App() {
           <Route path='/admin/edit-product/:product_id' element={<EditProduct />} />
           <Route path='/admin/orders' element={<Orders />} />
           <Route path='/admin/orders/:order_id' element={<OrderPage />} />
-          {/* <Route path='/admin/file-reader' element={<FileReaderCSV />} /> */}
+          <Route path='/admin/file-reader' element={<FileReaderCSV />} />
+          <Route path='/admin/dev/search-product' element={<SearchProduct />} />
+          <Route path='/admin/dev/bulk-delete' element={<BulkDelete />} />
+
           <Route path='*' element={<NotFound />} />
         </Routes>
         <Footer />
