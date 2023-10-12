@@ -71,7 +71,7 @@ function FileReaderCSV() {
 
         let count = 0;
 
-        let length= productData.length-1;
+        let length= productData.length;
         console.log(count);
         // console.log(jsonData);
 

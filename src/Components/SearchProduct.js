@@ -16,7 +16,7 @@ const SearchProduct = () => {
         e.preventDefault();
         console.log('default prenveted');
 
-        appWriteObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, [Query.search("product_name", [productName])])
+        appWriteObj.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_PRODUCTDB, [Query.limit(100), Query.search("product_name", [productName])])
             .then(res => {
                 setIsLoading(false)
                 console.log(res);

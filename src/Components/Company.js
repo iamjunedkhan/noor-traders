@@ -23,7 +23,7 @@ const Company = () => {
     setCompanyData([...companyData,data]);
   }
   useEffect(() => {
-    appWriteConfig.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES,[Query.limit(100)])
+    appWriteConfig.databases.listDocuments(process.env.REACT_APP_DBKEY, process.env.REACT_APP_COLLECTION_ID_COMPANIES,[Query.limit(100),Query.orderAsc('company_name')])
     .then(res=> {
       setCompanyData(res.documents);
       console.log('====================================');

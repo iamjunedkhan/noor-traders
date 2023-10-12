@@ -113,7 +113,7 @@ function App() {
           <Route path='/admin/orders' element={<Orders />} />
           <Route path='/admin/orders/:order_id' element={<OrderPage />} />
           <Route path='/admin/file-reader' element={<FileReaderCSV />} />
-          <Route path='/admin/dev/search-product' element={<SearchProduct />} />
+          <Route path='/admin/search-product' element={<SearchProduct />} />
           <Route path='/admin/dev/bulk-delete' element={<BulkDelete />} />
 
           <Route path='*' element={<NotFound />} />
